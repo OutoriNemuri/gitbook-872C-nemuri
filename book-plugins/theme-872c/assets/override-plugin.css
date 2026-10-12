@@ -1,0 +1,179 @@
+/* ============================================================
+   与 fontsettings 插件解耦
+   ------------------------------------------------------------
+   插件通过 .book.color-theme-N 输出了大量硬编码颜色
+   （如 Night 档写死 hsl(228,21%,14%)、Sepia 写死 #F3EACB）。
+   本文件把这些声明统一交还给 CSS 变量，避免两套颜色体系打架。
+   变量本身由 website.css 依据同一个类名定义。
+   ============================================================ */
+
+/* ---------- 页面主体 ---------- */
+
+.book.color-theme-0 .book-body,
+.book.color-theme-1 .book-body,
+.book.color-theme-2 .book-body,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.book.color-theme-0 .book-summary,
+.book.color-theme-1 .book-summary,
+.book.color-theme-2 .book-summary {
+  background: var(--sidebar-bg) !important;
+  color: var(--text-muted) !important;
+}
+
+.book.color-theme-0 .book-header,
+.book.color-theme-1 .book-header,
+.book.color-theme-2 .book-header {
+  background: color-mix(in srgb, var(--bg) 85%, transparent) !important;
+  color: var(--text-muted) !important;
+}
+
+/* ---------- 正文元素：把插件的写死色收回到变量 ---------- */
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal {
+  color: var(--text);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal a,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal a,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal a {
+  color: var(--accent);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h1,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h1,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h1,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h2,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h2,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h2,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h3,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h3,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h3,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h4,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h4,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h4,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h5,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h5,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h5,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal h6,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal h6,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal h6 {
+  color: var(--text);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal hr,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal hr,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal hr {
+  background: var(--border);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal table th,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal table th,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal table th,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal table td,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal table td,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal table td {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal blockquote,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal blockquote,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal blockquote {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--text-muted);
+}
+
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal pre,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal pre,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal pre,
+.book.color-theme-0 .book-body .page-wrapper .page-inner section.normal code,
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal code,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal code {
+  background: var(--bg-subtle);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* ---------- 搜索 ---------- */
+
+.book.color-theme-0 #book-search-input,
+.book.color-theme-1 #book-search-input,
+.book.color-theme-2 #book-search-input {
+  background: transparent;
+}
+
+.book.color-theme-0 #book-search-results .search-results .has-results .search-results-item,
+.book.color-theme-1 #book-search-results .search-results .has-results .search-results-item,
+.book.color-theme-2 #book-search-results .search-results .has-results .search-results-item {
+  color: var(--text-muted);
+}
+
+.book.color-theme-0 .book-summary ul.summary li a,
+.book.color-theme-1 .book-summary ul.summary li a,
+.book.color-theme-2 .book-summary ul.summary li a {
+  color: var(--text-muted);
+}
+
+.book.color-theme-0 .book-summary ul.summary li.active > a,
+.book.color-theme-1 .book-summary ul.summary li.active > a,
+.book.color-theme-2 .book-summary ul.summary li.active > a {
+  color: var(--accent);
+}
+
+/* ---------- 字体设置下拉面板（保留插件功能，只调外观） ---------- */
+
+.book.color-theme-0 .dropdown-menu,
+.book.color-theme-1 .dropdown-menu,
+.book.color-theme-2 .dropdown-menu {
+  background: var(--bg-elevated);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.book.color-theme-0 .dropdown-menu .buttons,
+.book.color-theme-1 .dropdown-menu .buttons,
+.book.color-theme-2 .dropdown-menu .buttons {
+  background: transparent;
+}
+
+.book.color-theme-0 .dropdown-menu .button,
+.book.color-theme-1 .dropdown-menu .button,
+.book.color-theme-2 .dropdown-menu .button {
+  background: var(--bg-subtle);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.book.color-theme-0 .dropdown-menu .button:hover,
+.book.color-theme-1 .dropdown-menu .button:hover,
+.book.color-theme-2 .dropdown-menu .button:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.book .dropdown-menu .dropdown-caret .caret-outer,
+.book .dropdown-menu .dropdown-caret .caret-inner {
+  border-bottom-color: var(--border);
+}
+
+.book .dropdown-menu .dropdown-caret .caret-inner {
+  border-bottom-color: var(--bg-elevated);
+}
+
+/* ---------- 深色档下，代码高亮的浅色配色改为通透 ---------- */
+
+.book.color-theme-1 .book-body .page-wrapper .page-inner section.normal .hljs,
+.book.color-theme-2 .book-body .page-wrapper .page-inner section.normal .hljs,
+html[data-theme="dark"] .markdown-section .hljs {
+  background: transparent !important;
+  color: var(--text);
+}

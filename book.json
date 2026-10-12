@@ -13,6 +13,8 @@
       "github": "https://github.com/OutoriNemuri/gitbook-872C-nemuri"
     }
   },
-  "plugins": [],
+  "plugins": [
+    "theme-872c"
+  ],
   "pluginsConfig": {}
 }

@@ -1,44 +1,654 @@
-// 872C 官方文档集 — HonKit 自定义样式
-// 覆盖默认主题的部分视觉细节，不引入任何外部依赖。
+/* ============================================================
+   872C 官方文档集 — 自定义主题
+   现代文档风 / 暗色 + 浅色双模式
+   零依赖：纯 CSS 变量 + 一处 JS 注入
+   ============================================================ */
 
-.book-logo {
-  margin: 0;
+/* ---------- 1. 设计令牌 ---------- */
+
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro SC", "SF Pro Text",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --accent-line: #6366f1;
+
+  --bg: #ffffff;
+  --bg-subtle: #f7f8fa;
+  --bg-elevated: #ffffff;
+  --sidebar-bg: #fbfbfd;
+  --border: #e6e8ec;
+  --border-strong: #d3d7de;
+
+  --text: #1f2328;
+  --text-muted: #656d76;
+  --text-faint: #8b949e;
+
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 16px rgba(16, 24, 40, 0.09);
+
+  --sidebar-w: 300px;
+  --content-max: 860px;
 }
 
-.book-logo a {
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+/* ============================================================
+   模式驱动说明
+   ------------------------------------------------------------
+   深色模式的唯一真源是 HonKit fontsettings 插件打在 .book 上的
+   color-theme-N 类：
+     0 = White（浅色）  1 = Sepia（浅褐）  2 = Night（深色）
+   其次才看 html[data-theme]（用于脚本抢先设置、避免闪白）。
+   三条选择器共用同一套变量，保证与插件不打架。
+   ============================================================ */
+
+.mode-dark {
+  --accent: #818cf8;
+  --accent-soft: rgba(129, 140, 248, 0.12);
+  --accent-line: #a5b4fc;
+
+  --bg: #0d1117;
+  --bg-subtle: #161b22;
+  --bg-elevated: #1c2128;
+  --sidebar-bg: #10151b;
+  --border: #262c36;
+  --border-strong: #363d48;
+
+  --text: #e6edf3;
+  --text-muted: #9aa4b2;
+  --text-faint: #6e7781;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.book-summary ul.summary li a,
-.book-summary ul.summary li span {
-  padding-top: 7px;
-  padding-bottom: 7px;
+/* 插件设置的 color-theme-N 同样映射到 .mode-dark 变量。
+   注意：color-theme-0 必须显式写回浅色令牌，否则它会继承
+   .mode-dark 之外任何残留的深色值（曾导致浅色下侧栏高亮发蓝）。 */
+.book.color-theme-0 {
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --accent-line: #6366f1;
+
+  --bg: #ffffff;
+  --bg-subtle: #f7f8fa;
+  --bg-elevated: #ffffff;
+  --sidebar-bg: #fbfbfd;
+  --border: #e6e8ec;
+  --border-strong: #d3d7de;
+
+  --text: #1f2328;
+  --text-muted: #656d76;
+  --text-faint: #8b949e;
+  --shadow-md: 0 4px 16px rgba(16, 24, 40, 0.09);
 }
 
-.book-summary ul.summary li.active > a {
-  color: #2f6feb;
-  font-weight: 600;
+.book.color-theme-1,
+.book.color-theme-2 {
+  --accent: #818cf8;
+  --accent-soft: rgba(129, 140, 248, 0.12);
+  --accent-line: #a5b4fc;
+
+  --bg: #0d1117;
+  --bg-subtle: #161b22;
+  --bg-elevated: #1c2128;
+  --sidebar-bg: #10151b;
+  --border: #262c36;
+  --border-strong: #363d48;
+
+  --text: #e6edf3;
+  --text-muted: #9aa4b2;
+  --text-faint: #6e7781;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
+
+/* ---------- 2. 基础排版 ---------- */
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.book {
+  background: var(--bg);
+}
+
+.book .book-body,
+.book .book-body .page-wrapper,
+.book .book-body .page-inner {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.book .book-body .page-wrapper .page-inner {
+  max-width: var(--content-max);
+  padding: 40px 48px 96px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.markdown-section {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 中文排版微调 */
+.markdown-section p,
+.markdown-section li {
+  letter-spacing: 0.01em;
+}
+
+.markdown-section p {
+  margin: 1.1em 0;
+}
+
+/* ---------- 3. 标题 ---------- */
+
+.markdown-section h1,
+.markdown-section h2,
+.markdown-section h3,
+.markdown-section h4,
+.markdown-section h5,
+.markdown-section h6 {
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-top: 2em;
+  margin-bottom: 0.7em;
+}
+
+.markdown-section h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-top: 0.4em;
+  margin-bottom: 0.9em;
+  padding-bottom: 0.4em;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+
+.markdown-section h2 {
+  font-size: 1.45em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--border);
+}
+
+.markdown-section h3 {
+  font-size: 1.18em;
+}
+
+.markdown-section h4 {
+  font-size: 1.03em;
+  color: var(--text-muted);
+}
+
+/* ---------- 4. 链接 ---------- */
+
+.markdown-section a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  font-weight: 500;
+}
+
+.markdown-section a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.markdown-section a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---------- 5. 表格 ---------- */
 
 .markdown-section table {
   display: table;
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.6em 0;
+  font-size: 0.94em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.markdown-section table thead tr {
+  background: var(--bg-subtle);
 }
 
 .markdown-section table th {
-  background: #f6f8fa;
+  background: var(--bg-subtle);
+  color: var(--text);
+  font-weight: 650;
+  padding: 11px 16px;
+  border: none;
+  border-bottom: 2px solid var(--border-strong);
+  text-align: left;
+  white-space: nowrap;
 }
+
+.markdown-section table td {
+  padding: 10px 16px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+
+.markdown-section table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-section table tbody tr:nth-child(even) {
+  background: var(--bg-subtle);
+}
+
+.markdown-section table tbody tr:hover {
+  background: var(--accent-soft);
+}
+
+/* 表格内代码不再加底色边框，避免视觉噪音 */
+.markdown-section table td code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.95em;
+}
+
+/* ---------- 6. 引用块 ---------- */
 
 .markdown-section blockquote {
-  border-left: 4px solid #2f6feb;
-  background: #f6f8fa;
-  padding: 0.6em 1em;
-  color: #444;
+  margin: 1.5em 0;
+  padding: 0.85em 1.2em;
+  border-left: 3px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-muted);
 }
 
-.markdown-section h2 {
-  border-bottom: 1px solid #eaecef;
-  padding-bottom: 0.3em;
+.markdown-section blockquote p {
+  margin: 0.4em 0;
+  color: var(--text-muted);
+}
+
+.markdown-section blockquote p:first-child {
+  margin-top: 0;
+}
+
+.markdown-section blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-section blockquote strong {
+  color: var(--text);
+}
+
+/* ---------- 7. 代码 ---------- */
+
+.markdown-section code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  padding: 0.18em 0.42em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.markdown-section pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.markdown-section pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.86em;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* ---------- 8. 列表 ---------- */
+
+.markdown-section ul,
+.markdown-section ol {
+  padding-left: 1.6em;
+}
+
+.markdown-section li {
+  margin: 0.35em 0;
+}
+
+.markdown-section ul li::marker {
+  color: var(--accent);
+}
+
+.markdown-section ol li::marker {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- 9. 分隔线 ---------- */
+
+.markdown-section hr {
+  height: 1px;
+  border: none;
+  background: var(--border);
+  margin: 2.4em 0;
+}
+
+/* ---------- 10. 图片 ---------- */
+
+.markdown-section img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  max-width: 100%;
+}
+
+/* ---------- 11. 侧栏 ---------- */
+
+.book .book-summary {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  width: var(--sidebar-w);
+  font-family: var(--font-sans);
+  box-shadow: none;
+}
+
+.book .book-summary .book-search {
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.book .book-summary .book-search input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 7px 11px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.book .book-summary .book-search input::placeholder {
+  color: var(--text-faint);
+}
+
+.book .book-summary .book-search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* 搜索结果下拉 */
+.book .book-summary .book-search input + .results,
+.book .book-summary ul.summary li.search-results {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.book .book-summary ul.summary li a,
+.book .book-summary ul.summary li span {
+  color: var(--text-muted);
+  font-weight: 450;
+  padding: 7px 16px 7px 20px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.book .book-summary ul.summary li a:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* 侧栏当前页。
+   必须带 !important：override-plugin.css 里有同特异性的选择器，
+   而它因加载顺序更早、由后续声明的本规则覆盖 —— 但插件自身的
+   .book.color-theme-N 规则会在某些路径下重新胜出。
+   当前页高亮是核心视觉，用 !important 锁死，避免主题切换后残留旧色。 */
+.book .book-summary ul.summary li.active > a,
+.book .book-summary ul.summary li.active > a:hover {
+  color: var(--accent) !important;
+  font-weight: 650 !important;
+  background: var(--accent-soft) !important;
+  box-shadow: inset 3px 0 0 var(--accent) !important;
+}
+
+/* 分组标题（SUMMARY.md 里的 ## 段落） */
+.book .book-summary ul.summary li.header {
+  color: var(--text-faint);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 20px 16px 6px 20px;
+}
+
+.book .book-summary ul.summary li.divider {
+  background: var(--border);
+  box-shadow: none;
+}
+
+.book .book-summary .book-logo a {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* 侧栏滚动条 */
+.book .book-summary::-webkit-scrollbar,
+.markdown-section pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.book .book-summary::-webkit-scrollbar-thumb,
+.markdown-section pre::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+.book .book-summary::-webkit-scrollbar-track,
+.markdown-section pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- 12. 顶部工具栏 ---------- */
+
+.book .book-header {
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.book .book-header .btn {
+  color: var(--text-muted);
+}
+
+.book .book-header .btn:hover {
+  color: var(--accent);
+}
+
+.book .book-header h1,
+.book .book-header h1 a {
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 650;
+}
+
+/* ---------- 13. 主题切换按钮 ---------- */
+
+/* HonKit 默认主题没有 .pull-right 容器，切换按钮会被挂在左侧汉堡键旁。
+   这里把它推到工具栏最右侧，符合主题切换的普遍认知位置。 */
+.book-header .theme-toggle {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  z-index: 2;
+}
+
+/* 窄屏时右侧留白收窄 */
+@media (max-width: 768px) {
+  .book-header .theme-toggle {
+    right: 10px;
+  }
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 2px;
+  padding: 0;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  vertical-align: middle;
+  line-height: 1;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 浅色下显示月亮（点击切到暗色），暗色下显示太阳 */
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: none;
+  }
+  html:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: block;
+  }
+}
+
+/* 代码高亮配色随主题走 */
+html[data-theme="dark"] .markdown-section .hljs,
+html[data-theme="dark"] .markdown-section pre .hljs {
+  background: transparent;
+  color: var(--text);
+}
+
+/* ---------- 14. 移动端 ---------- */
+
+@media (max-width: 768px) {
+  .book .book-body .page-wrapper .page-inner {
+    padding: 24px 20px 72px;
+    font-size: 15.5px;
+  }
+
+  .markdown-section h1 {
+    font-size: 1.65em;
+  }
+
+  .markdown-section h2 {
+    font-size: 1.3em;
+  }
+
+  .markdown-section table {
+    font-size: 0.88em;
+  }
+
+  .markdown-section table th,
+  .markdown-section table td {
+    padding: 8px 11px;
+  }
+}
+
+/* ---------- 15. 打印 ---------- */
+
+@media print {
+  .book .book-summary,
+  .book .book-header,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  .markdown-section {
+    color: #000;
+  }
+}
+
+/* ---------- 16. 过渡（避免切换主题闪烁） ---------- */
+
+body,
+.book,
+.book .book-body,
+.book .book-summary,
+.book .book-header,
+.markdown-section table,
+.markdown-section blockquote,
+.markdown-section pre,
+.markdown-section code,
+.theme-toggle {
+  transition: background-color 0.22s ease, border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "theme-872c",
+  "version": "1.0.0",
+  "description": "872C custom theme: dark/light toggle + plugin decoupling",
+  "main": "index.js",
+  "engines": { "gitbook": "*" }
+}

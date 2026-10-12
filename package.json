@@ -4,8 +4,10 @@
   "private": true,
   "description": "872C Studio 官方文档集 — 世界观设定文档",
   "scripts": {
+    "postinstall": "node scripts/link-plugins.js",
     "dev": "honkit serve",
-    "build": "honkit build",
+    "build": "npm run build:plugins && honkit build",
+    "build:plugins": "node scripts/link-plugins.js",
     "serve": "honkit serve --port 4000"
   },
   "devDependencies": {
