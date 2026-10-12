@@ -15,7 +15,7 @@
 
 ## 跨世界合作
 
-2250 年，孙宋语料库与 **[SPS-OW](../worlds/urbs-immortalium.md#重要组织sps-ow)** 达成合作：
+2250 年，孙宋语料库与 **[SPS-OW](../worlds/urbs-immortalium.md#重要组织：sps-ow)** 达成合作：
 
 - **SPS-OW 提供**：各世界文章及其语言
 - **孙宋语料库提供**：文川大陆文章

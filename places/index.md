@@ -14,4 +14,4 @@
 | 组织 | 所属 | 职能 |
 | --- | --- | --- |
 | [宇宙问题应对部](universal-affairs.md) | [文川](../worlds/wenchuan.md)联合国 | 跨世界冲突与外交 |
-| [SPS-OW](../worlds/urbs-immortalium.md#重要组织sps-ow) | [Urbs Immortalium](../worlds/urbs-immortalium.md) | 时空混乱与平面秩序 |
+| [SPS-OW](../worlds/urbs-immortalium.md#重要组织：sps-ow) | [Urbs Immortalium](../worlds/urbs-immortalium.md) | 时空混乱与平面秩序 |

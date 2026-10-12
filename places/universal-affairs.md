@@ -6,7 +6,7 @@
 
 ## 性质
 
-部门性质近似 [SPS-OW](../worlds/urbs-immortalium.md#重要组织sps-ow)，但主要应对：
+部门性质近似 [SPS-OW](../worlds/urbs-immortalium.md#重要组织：sps-ow)，但主要应对：
 
 - **跨世界冲突**
 - **跨世界外交**
