@@ -4,7 +4,6 @@
   "outputDirectory": "_book",
   "installCommand": "npm install",
   "framework": null,
-  "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
     {
