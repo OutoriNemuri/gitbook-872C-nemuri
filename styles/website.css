@@ -1,0 +1,44 @@
+// 872C 官方文档集 — HonKit 自定义样式
+// 覆盖默认主题的部分视觉细节，不引入任何外部依赖。
+
+.book-logo {
+  margin: 0;
+}
+
+.book-logo a {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.book-summary ul.summary li a,
+.book-summary ul.summary li span {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.book-summary ul.summary li.active > a {
+  color: #2f6feb;
+  font-weight: 600;
+}
+
+.markdown-section table {
+  display: table;
+  width: 100%;
+}
+
+.markdown-section table th {
+  background: #f6f8fa;
+}
+
+.markdown-section blockquote {
+  border-left: 4px solid #2f6feb;
+  background: #f6f8fa;
+  padding: 0.6em 1em;
+  color: #444;
+}
+
+.markdown-section h2 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 0.3em;
+}

@@ -1,0 +1,18 @@
+{
+  "title": "872C 官方文档集",
+  "description": "872C Studio 官方世界观文档 — 宇宙、世界、角色与创作史",
+  "author": "872C Studio",
+  "language": "zh-hans",
+  "root": ".",
+  "structure": {
+    "readme": "README.md",
+    "summary": "SUMMARY.md"
+  },
+  "links": {
+    "sharing": {
+      "github": "https://github.com/OutoriNemuri/gitbook-872C-nemuri"
+    }
+  },
+  "plugins": [],
+  "pluginsConfig": {}
+}
