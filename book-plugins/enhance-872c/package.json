@@ -1,0 +1,7 @@
+{
+  "name": "enhance-872c",
+  "version": "1.0.0",
+  "description": "872C reading, navigation and accessibility enhancements",
+  "main": "index.js",
+  "engines": { "gitbook": "*" }
+}

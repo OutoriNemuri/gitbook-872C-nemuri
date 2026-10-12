@@ -14,7 +14,8 @@
     }
   },
   "plugins": [
-    "theme-872c"
+    "theme-872c",
+    "enhance-872c"
   ],
   "pluginsConfig": {}
 }
